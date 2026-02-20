@@ -1,5 +1,28 @@
-# 🏗 Scaffold-DOT
+# 🏗 Steal My Idea — Proof of Authorship on Polkadot
 
+**Proof-of-authorship dapp on Polkadot Hub (PolkaVM)** where creators can timestamp ideas without revealing them.
+
+---
+
+## About This Project
+
+Steal My Idea lets anyone prove they published an idea first by hashing their text locally and anchoring only the hash on-chain. The app generates a keccak256 fingerprint client-side, stores the hash, title, timestamp, author, and optional bounty on Polkadot, and provides a public verification page where anyone can paste the original text to confirm authorship. Creators can also attach a bounty and later release it to a builder who ships the idea.
+
+### Key Features
+- Local-only idea drafting; only the hash is written on-chain
+- On-chain proof with author, timestamp, and title
+- Public verification flow that recomputes the hash
+- Optional bounty escrow and author-controlled release
+- Wallet connect + Polkadot Asset Hub support
+
+### Tech Stack
+- Next.js (App Router), Scaffold-DOT, Hardhat (PolkaVM), viem/wagmi, Reown AppKit
+
+---
+
+## 🏗 Scaffold-DOT
+
+*Development toolkit for building on Polkadot with Solidity*
 
 🧪 An open-source, up-to-date toolkit for building decentralized applications (dapps) on Polkadot Hub blockchain with Solidity smart contracts. It's designed to make it easier for developers to create and deploy smart contracts and build user interfaces that interact with those contracts.
 
