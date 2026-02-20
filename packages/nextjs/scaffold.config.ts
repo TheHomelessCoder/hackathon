@@ -20,16 +20,11 @@ export const localNode = defineChain({
     },
   },
   testnet: false,
-  // Custom fee configuration for pallet-revive's fixed fee model
-  // Polkadot revive requires: gas × gasPrice ≥ ~22-25 billion wei total
   fees: {
-    estimateFeesPerGas: async () => {
-      // With typical gas limit of 1M: 25,000,000,000 / 1,000,000 = 25,000 per gas
-      return {
-        maxFeePerGas: 25000000n, // 25M per gas unit = 25B total
-        maxPriorityFeePerGas: 1000000n, // 1M tip
-      };
-    },
+    estimateFeesPerGas: async () => ({
+      maxFeePerGas: 1300000n,
+      maxPriorityFeePerGas: 200000n,
+    }),
   },
 });
 

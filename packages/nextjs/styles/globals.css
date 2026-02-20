@@ -1,6 +1,6 @@
 @import "tailwindcss";
 
-@custom-variant dark (&:where([data-theme=dark], [data-theme=dark] *));
+@custom-variant dark (&:where([data-theme=hacker], [data-theme=hacker] *));
 
 @theme {
   --shadow-center: 0 0 12px -2px rgb(0 0 0 / 0.05);
@@ -8,70 +8,38 @@
 }
 
 @plugin "daisyui" {
-  themes:
-    light,
-    dark --prefersdark;
+  themes: false;
 }
 
 @plugin "daisyui/theme" {
-  name: "light";
+  name: "hacker";
 
-  --color-primary: #1a1a1a;
-  --color-primary-content: #ffffff;
-  --color-secondary: #DCE2E9;
-  --color-secondary-content: #212638;
-  --color-accent: #4a4a4a;
+  --color-primary: #00ff41;
+  --color-primary-content: #0a0a0a;
+  --color-secondary: #ffb800;
+  --color-secondary-content: #0a0a0a;
+  --color-accent: #ff0080;
   --color-accent-content: #ffffff;
-  --color-neutral: #212638;
-  --color-neutral-content: #ffffff;
-  --color-base-100: #ffffff;
-  --color-base-200: #f4f8ff;
-  --color-base-300: #AEB7CB;
-  --color-base-content: #212638;
-  --color-info: #07FFFF;
-  --color-success: #E4FF07;
-  --color-warning: #ffcf72;
-  --color-error: #ff8863;
+  --color-neutral: #1a1a1a;
+  --color-neutral-content: #00ff41;
+  --color-base-100: #0a0a0a;
+  --color-base-200: #111111;
+  --color-base-300: #1a1a1a;
+  --color-base-content: #00ff41;
+  --color-info: #00ff41;
+  --color-success: #00ff41;
+  --color-warning: #ffb800;
+  --color-error: #ff3333;
 
-  --radius-field: 9999rem;
-  --radius-box: 1rem;
+  --radius-field: 0.25rem;
+  --radius-box: 0.5rem;
   --tt-tailw: 6px;
-}
-
-@plugin "daisyui/theme" {
-  name: "dark";
-
-  --color-primary: #e5e5e5;
-  --color-primary-content: #1a1a1a;
-  --color-secondary: #000000;
-  --color-secondary-content: #f9fbff;
-  --color-accent: #b0b0b0;
-  --color-accent-content: #1a1a1a;
-  --color-neutral: #f9fbff;
-  --color-neutral-content: #AEB7CB;
-  --color-base-100: #000000;
-  --color-base-200: #000000;
-  --color-base-300: #212638;
-  --color-base-content: #f9fbff;
-  --color-info: #f9fbff;
-  --color-success: #34eeb6;
-  --color-warning: #ffcf72;
-  --color-error: #ff8863;
-
-  --radius-field: 9999rem;
-  --radius-box: 1rem;
-
-  --tt-tailw: 6px;
-  --tt-bg: var(--color-primary);
 }
 
 /*
   The default border color has changed to `currentColor` in Tailwind CSS v4,
   so we've added these compatibility styles to make sure everything still
   looks the same as it did with Tailwind CSS v3.
-
-  If we ever want to remove these styles, we need to add an explicit border
-  color utility to any element that depends on these defaults.
 */
 @layer base {
   *,
@@ -88,6 +56,7 @@
 
   body {
     min-height: 100vh;
+    font-family: "JetBrains Mono", "Fira Code", "Cascadia Code", Consolas, monospace;
   }
 
   h1,
@@ -118,4 +87,41 @@
 
 .link:hover {
   opacity: 80%;
+}
+
+/* Terminal animations */
+@keyframes blink {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0; }
+}
+
+@keyframes glow {
+  0%, 100% { text-shadow: 0 0 5px rgba(0, 255, 65, 0.4); }
+  50% { text-shadow: 0 0 20px rgba(0, 255, 65, 0.8), 0 0 40px rgba(0, 255, 65, 0.2); }
+}
+
+/* Utility classes */
+.terminal-text {
+  color: #00ff41;
+  text-shadow: 0 0 5px rgba(0, 255, 65, 0.4);
+}
+
+.terminal-cursor::after {
+  content: "▮";
+  animation: blink 1s step-end infinite;
+  margin-left: 2px;
+}
+
+.terminal-border {
+  border: 1px solid #00ff41;
+  box-shadow: 0 0 5px rgba(0, 255, 65, 0.2), inset 0 0 5px rgba(0, 255, 65, 0.05);
+}
+
+.glow-text {
+  animation: glow 3s ease-in-out infinite;
+}
+
+.amber-text {
+  color: #ffb800;
+  text-shadow: 0 0 5px rgba(255, 184, 0, 0.3);
 }

@@ -35,6 +35,7 @@ module.exports = {
   // npm Compiler
   resolc: {
     compilerSource: 'npm',
+    version: '1.0.0',
     settings: {
       optimizer: {
         enabled: true,

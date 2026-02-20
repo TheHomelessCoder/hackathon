@@ -2,70 +2,102 @@
 
 import Link from "next/link";
 import type { NextPage } from "next";
-import { useAccount } from "wagmi";
-import { BugAntIcon, MagnifyingGlassIcon } from "@heroicons/react/24/outline";
-import { Address } from "~~/components/scaffold-eth";
+import { useScaffoldReadContract } from "~~/hooks/scaffold-eth";
 
 const Home: NextPage = () => {
-  const { address: connectedAddress } = useAccount();
+  const { data: ideaCount } = useScaffoldReadContract({
+    contractName: "StealMyIdea",
+    functionName: "ideaCount",
+  });
 
   return (
-    <>
-      <div className="flex bg-base-100 items-center flex-col grow pt-10">
-        <div className="px-5">
-          <h1 className="text-center">
-            <span className="block text-2xl mb-2">Welcome to</span>
-            <span className="block text-4xl font-bold">Scaffold-DOT</span>
-          </h1>
-          <div className="flex justify-center items-center space-x-2 flex-col">
-            <p className="my-2 font-medium">Connected Address:</p>
-            <Address address={connectedAddress} />
-          </div>
-          <p className="text-center text-lg">
-            Get started by editing{" "}
-            <code className="italic text-primary font-bold max-w-full break-words break-all inline-block">
-              packages/nextjs/app/page.tsx
-            </code>
-          </p>
-          <p className="text-center text-lg">
-            Edit your smart contract{" "}
-            <code className="italic text-primary font-bold max-w-full break-words break-all inline-block">
-              YourContract.sol
-            </code>{" "}
-            in{" "}
-            <code className="italic text-primary font-bold max-w-full break-words break-all inline-block">
-              packages/hardhat/contracts
-            </code>
-          </p>
+    <div className="flex flex-col items-center grow bg-base-100">
+      <div className="flex flex-col items-center justify-center px-6 pt-20 pb-16 max-w-3xl text-center">
+        <div className="mb-2 text-primary/40 text-sm tracking-widest uppercase">
+          proof-of-authorship protocol
         </div>
+        <h1 className="text-4xl md:text-6xl font-bold terminal-text glow-text mb-4 leading-tight">
+          Here&apos;s my idea.
+        </h1>
+        <p className="text-xl md:text-2xl text-base-content/80 mb-2">
+          If you build it, I have proof I published it first.
+        </p>
+        <p className="text-sm amber-text mb-10">
+          Timestamped. Immutable. On Polkadot.
+        </p>
 
-        <div className="grow bg-base-100 w-full mt-16 px-8 py-12">
-          <div className="flex justify-center items-center gap-12 flex-col md:flex-row">
-            <div className="flex flex-col border-1 border-base-secondary border-rounded-lg bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-              <BugAntIcon className="h-8 w-8 fill-secondary" />
-              <p>
-                Tinker with your smart contract using the{" "}
-                <Link href="/debug" passHref className="link">
-                  Debug Contracts
-                </Link>{" "}
-                tab.
-              </p>
-            </div>
-            <div className="flex flex-col border-1 border-rounded-lg bg-base-100 px-10 py-10 text-center items-center max-w-xs rounded-3xl">
-              <MagnifyingGlassIcon className="h-8 w-8 fill-secondary" />
-              <p>
-                Explore your local transactions with the{" "}
-                <Link href="/blockexplorer" passHref className="link">
-                  Block Explorer
-                </Link>{" "}
-                tab.
-              </p>
-            </div>
+        <div className="flex flex-col sm:flex-row gap-4">
+          <Link
+            href="/write"
+            className="btn terminal-border text-primary hover:bg-primary/10 font-mono text-base px-8"
+          >
+            $ write --idea
+          </Link>
+          <Link
+            href={ideaCount && Number(ideaCount) > 0 ? `/verify/${Number(ideaCount)}` : "/ideas"}
+            className="btn border border-secondary/50 text-secondary hover:bg-secondary/10 font-mono text-base px-8"
+          >
+            $ verify --proof
+          </Link>
+        </div>
+      </div>
+
+      <div className="w-full max-w-md px-6 py-8 text-center">
+        <div className="terminal-border rounded-lg p-6">
+          <div className="text-5xl font-bold terminal-text glow-text mb-2">
+            {ideaCount !== undefined ? Number(ideaCount).toString() : "—"}
+          </div>
+          <div className="text-base-content/50 text-sm">
+            ideas proven on-chain
           </div>
         </div>
       </div>
-    </>
+
+      <div className="w-full max-w-2xl px-6 py-12">
+        <h2 className="text-center text-lg amber-text mb-8 tracking-wider uppercase">
+          How it works
+        </h2>
+        <div className="flex flex-col gap-6">
+          <Step
+            command="write"
+            description="Write your idea locally. It never leaves your machine."
+          />
+          <Step
+            command="prove"
+            description="Publish a cryptographic proof on Polkadot. Only the hash goes on-chain."
+          />
+          <Step
+            command="share"
+            description="Share your proof link. Anyone can verify you published first."
+          />
+        </div>
+      </div>
+
+      <div className="w-full max-w-2xl px-6 pb-20 text-center">
+        <div className="rounded-lg border border-accent/20 bg-accent/5 p-6">
+          <p className="text-accent font-bold text-lg mb-1">
+            💰 Attach a bounty
+          </p>
+          <p className="text-base-content/50 text-sm m-0">
+            Think someone should build your idea? Attach native tokens as a bounty.
+            <br />
+            Release it when someone delivers.
+          </p>
+        </div>
+      </div>
+    </div>
   );
 };
+
+const Step = ({ command, description }: { command: string; description: string }) => (
+  <div className="flex items-start gap-4">
+    <div className="terminal-border rounded px-3 py-2 bg-base-200 shrink-0">
+      <span className="text-primary font-mono text-sm">$ {command}</span>
+    </div>
+    <p className="text-base-content/70 text-sm m-0 pt-2">
+      {description}
+    </p>
+  </div>
+);
 
 export default Home;

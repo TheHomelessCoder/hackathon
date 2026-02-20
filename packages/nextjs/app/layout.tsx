@@ -2,35 +2,24 @@ import { ScaffoldEthAppWithProviders } from "~~/components/ScaffoldEthAppWithPro
 import { ThemeProvider } from "~~/components/ThemeProvider";
 import "~~/styles/globals.css";
 import { getMetadata } from "~~/utils/scaffold-eth/getMetadata";
-import { Inter } from "next/font/google";
-import Script from "next/script";
+import { JetBrains_Mono } from "next/font/google";
 
 export const metadata = getMetadata({
-  title: "Scaffold-DOT App",
-  description: "Built with 🏗 Scaffold-DOT",
+  title: "Steal My Idea | Proof on Polkadot",
+  description: "Here's my idea. If you build it, I have proof I published it first. Powered by Polkadot.",
 });
 
-const inter = Inter({
+const jetbrainsMono = JetBrains_Mono({
   subsets: ['latin'],
   display: 'swap',
-  variable: '--font-inter',
-  weight: [
-    '200',
-    '300',
-    '400',
-    '500',
-    '600',
-    '700',
-    '800',
-    '900'
-  ]
-})
+  variable: '--font-mono',
+});
 
 const ScaffoldEthApp = ({ children }: { children: React.ReactNode }) => {
   return (
-    <html suppressHydrationWarning className={inter.className}>
+    <html suppressHydrationWarning data-theme="hacker" className={jetbrainsMono.className}>
       <body>
-        <ThemeProvider enableSystem>
+        <ThemeProvider defaultTheme="hacker" forcedTheme="hacker">
           <ScaffoldEthAppWithProviders>{children}</ScaffoldEthAppWithProviders>
         </ThemeProvider>
       </body>

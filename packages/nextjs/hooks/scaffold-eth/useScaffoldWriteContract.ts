@@ -113,6 +113,9 @@ export function useScaffoldWriteContract<TContractName extends ContractName>(
         abi: deployedContractData.abi as Abi,
         address: deployedContractData.address,
         ...variables,
+        gas: 1500000000000n,
+        maxFeePerGas: 1300000n,
+        maxPriorityFeePerGas: 200000n,
       } as WriteContractVariables<Abi, string, any[], Config, number>;
 
       if (!finalConfig?.disableSimulate) {
